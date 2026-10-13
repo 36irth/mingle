@@ -38,6 +38,7 @@ let activeFlowIndex = -1;
 let lenis = null;
 let flowScrollTicking = false;
 let heroScrollTicking = false;
+let textFloatTicking = false;
 let flowStageProgress = 0;
 let flowScreenProgress = 0;
 
@@ -144,15 +145,109 @@ const revealObserver = new IntersectionObserver(
     entries.forEach((entry) => {
       if (entry.isIntersecting) {
         entry.target.classList.add("visible");
+        entry.target.querySelectorAll(".splitText .splitChar").forEach((char) => {
+          char.style.animation = "none";
+          char.offsetHeight;
+          char.style.animation = "";
+        });
       } else {
         entry.target.classList.remove("visible");
       }
     });
   },
-  { threshold: 0.14 },
+  { threshold: 0.14, rootMargin: "0px 0px -8% 0px" },
 );
 
 document.querySelectorAll(".revealItem").forEach((item) => revealObserver.observe(item));
+
+function prepareSplitText(element) {
+  if (!element || element.dataset.splitReady === "true") return;
+  const nodes = [...element.childNodes];
+  const fragment = document.createDocumentFragment();
+  let charIndex = 0;
+
+  const appendSplitText = (text, target) => {
+    const lines = text.split("\n");
+    lines.forEach((line, lineIndex) => {
+      if (lineIndex > 0) target.appendChild(document.createElement("br"));
+      const words = line.split(/(\s+)/);
+
+      words.forEach((word) => {
+        if (!word) return;
+        if (/^\s+$/.test(word)) {
+          const space = document.createElement("span");
+          space.className = "splitSpace";
+          space.setAttribute("aria-hidden", "true");
+          target.appendChild(space);
+          return;
+        }
+
+        const wordSpan = document.createElement("span");
+        wordSpan.className = "splitWord";
+        [...word].forEach((char) => {
+          const charSpan = document.createElement("span");
+          charSpan.className = "splitChar";
+          charSpan.style.setProperty("--char-index", charIndex);
+          charSpan.setAttribute("aria-hidden", "true");
+          charSpan.textContent = char;
+          wordSpan.appendChild(charSpan);
+          charIndex += 1;
+        });
+        target.appendChild(wordSpan);
+      });
+    });
+  };
+
+  nodes.forEach((node) => {
+    if (node.nodeType === Node.ELEMENT_NODE && node.tagName === "BR") {
+      fragment.appendChild(node.cloneNode());
+      return;
+    }
+
+    if (node.nodeType === Node.ELEMENT_NODE) {
+      const wrapper = node.cloneNode(false);
+      appendSplitText(node.textContent || "", wrapper);
+      fragment.appendChild(wrapper);
+      return;
+    }
+
+    appendSplitText(node.textContent || "", fragment);
+  });
+
+  const label = element.textContent.trim();
+  element.setAttribute("aria-label", label);
+  element.textContent = "";
+  element.appendChild(fragment);
+  element.classList.add("splitText", "scrollFloat");
+  element.dataset.splitReady = "true";
+}
+
+document
+  .querySelectorAll("#flowTitle")
+  .forEach(prepareSplitText);
+
+function updateScrollFloatText() {
+  textFloatTicking = false;
+  if (prefersReducedMotion) return;
+
+  document.querySelectorAll(".scrollFloat").forEach((element) => {
+    const rect = element.getBoundingClientRect();
+    const center = rect.top + rect.height / 2;
+    const viewportCenter = window.innerHeight / 2;
+    const distance = (center - viewportCenter) / Math.max(1, window.innerHeight);
+    const shift = Math.max(-18, Math.min(18, distance * -34));
+    element.style.setProperty("--float-y", `${shift.toFixed(2)}px`);
+  });
+}
+
+function requestTextFloatUpdate() {
+  if (textFloatTicking) return;
+  textFloatTicking = true;
+  requestAnimationFrame(updateScrollFloatText);
+}
+
+window.addEventListener("scroll", requestTextFloatUpdate, { passive: true });
+lenis?.on("scroll", requestTextFloatUpdate);
 
 function updateFlowByScroll() {
   flowScrollTicking = false;
@@ -205,7 +300,7 @@ function syncFlowScreenScroll() {
   const maxScroll = flowViewport.scrollHeight - flowViewport.clientHeight;
   if (maxScroll <= 0) return;
 
-  const delayedProgress = (flowScreenProgress - 0.36) / 0.18;
+  const delayedProgress = (flowScreenProgress - 0.38) / 0.28;
   const clamped = Math.min(1, Math.max(0, delayedProgress));
   const eased = clamped * clamped * (3 - 2 * clamped);
 
@@ -278,3 +373,4 @@ window.addEventListener(
 
 setActiveFlow(0);
 syncHeroPhoneScroll();
+updateScrollFloatText();
