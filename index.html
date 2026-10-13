@@ -1,0 +1,286 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Mingle UI/UX portfolio landing page showing problem definition, design decisions, and mobile scheduling flow."
+    />
+    <title>Mingle | UI/UX Portfolio</title>
+    <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/npm/pretendard@1.3.9/dist/web/static/pretendard.css" />
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <a class="skipLink" href="#mainContent">본문으로 바로가기</a>
+
+    <div class="scrollProgress" data-scroll-progress></div>
+    <div class="floatingDock" aria-label="빠른 이동">
+      <a class="topFab" href="#heroSection" aria-label="맨 위로 이동">TOP</a>
+    </div>
+
+    <header class="siteHeader">
+      <nav class="navShell" aria-label="주요 메뉴">
+        <a class="brandMark" href="#heroSection" aria-label="Mingle 홈">mingle</a>
+        <button class="menuButton" type="button" aria-expanded="false" aria-controls="navLinks" data-menu-button>
+          <span></span>
+          <span></span>
+        </button>
+        <div class="navLinks" id="navLinks" data-nav-links>
+          <a href="#problemSection">Problem</a>
+          <a href="#solutionSection">Solution</a>
+          <a href="#flowSection">Flow</a>
+          <a href="#decisionSection">Decisions</a>
+          <a class="navPrototype" href="https://www.figma.com/proto/UALyVcFwWbFz1uGaSeCbkH/mingle?node-id=178-1892&t=iyzUpHDaGbuT5naI-1" target="_blank" rel="noopener noreferrer">Prototype</a>
+        </div>
+      </nav>
+    </header>
+
+    <main id="mainContent">
+      <section class="heroSection" id="heroSection" aria-labelledby="heroTitle">
+        <div class="heroInner pageGrid">
+          <div class="heroCopy revealItem">
+            <p class="eyebrowText">UI/UX Portfolio Case Study</p>
+            <h1 class="heroTitle" id="heroTitle">회의 시간 정하기<br /><span>더 가볍게 시작해요</span></h1>
+            <p class="heroLead">
+              Mingle은 여러 참석자의 가능 시간과 참석 조건을 수집하고, 회의를 확정하기 좋은 시간을 추천해 주는 모바일 일정 조율 서비스입니다.
+            </p>
+            <div class="heroActions">
+              <a class="primaryButton magnetic" href="#flowSection">메인 플로우 보기</a>
+              <a class="ghostButton magnetic" href="#solutionSection">설계 기준 보기</a>
+            </div>
+            <dl class="heroFacts" aria-label="프로젝트 요약">
+              <div><dt>Type</dt><dd>Personal UI/UX Project</dd></div>
+              <div><dt>Focus</dt><dd>Mobile Scheduling</dd></div>
+              <div><dt>Goal</dt><dd>Decision Support</dd></div>
+            </dl>
+          </div>
+
+          <div class="heroVisual revealItem">
+            <div class="phoneDevice heroPhone">
+              <span class="deviceButton deviceButtonLeft"></span>
+              <span class="deviceButton deviceButtonRight"></span>
+              <span class="deviceIsland"></span>
+              <div class="phoneGlass">
+                <img class="phoneShot" src="./assets/flow-recommend.png" alt="Mingle 추천 시간 확인 화면" />
+              </div>
+            </div>
+            <div class="phoneDevice heroPhone heroPhoneSecondary" data-scroll-phone>
+              <span class="deviceButton deviceButtonLeft"></span>
+              <span class="deviceButton deviceButtonRight"></span>
+              <span class="deviceIsland"></span>
+              <div class="phoneGlass">
+                <img class="phoneShot" src="./assets/screen-main.png" alt="Mingle 메인 화면" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="problemSection sectionPad" id="problemSection" aria-labelledby="problemTitle">
+        <div class="pageGrid problemGrid">
+          <div class="sectionIntro revealItem">
+            <p class="eyebrowText">Problem</p>
+            <h2 class="sectionTitle" id="problemTitle">모두의 시간을 맞추는 일, 왜 이렇게 복잡할까요?</h2>
+            <p class="sectionLead">
+              참석자 응답은 여러 메시지에 흩어지고, 주최자는 서로 다른 가능 시간과 참석 조건을 직접 대조해야 합니다.
+            </p>
+            <div class="chatWindow" aria-label="일정 조율 채팅 예시">
+              <div class="chatTop">
+                <span></span><span></span><span></span>
+                <strong>마케팅 팀 주간 회의</strong>
+              </div>
+              <div class="messageStack">
+                <div class="messageRow">
+                  <img src="./assets/avatar-01.png" alt="" />
+                  <p>저는 수요일 오후 가능해요.</p>
+                </div>
+                <div class="messageRow mine">
+                  <p>목요일은 어려울 것 같아요.</p>
+                  <img src="./assets/avatar-host.png" alt="" />
+                </div>
+                <div class="messageRow">
+                  <img src="./assets/avatar-02.png" alt="" />
+                  <p>필수 참석자는 언제 가능하지?</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="problemBoard revealItem">
+            <div class="problemSummary">
+              <span>What gets messy</span>
+              <strong>대화는 이어지지만, 결정에 필요한 정보는 흩어져요.</strong>
+            </div>
+            <div class="problemCards">
+              <article><span>01</span><strong>정보 분산</strong><p>참석자 응답이 메시지와 대화에 흩어집니다.</p></article>
+              <article><span>02</span><strong>비교 부담</strong><p>서로 다른 가능 시간을 주최자가 직접 대조합니다.</p></article>
+              <article><span>03</span><strong>조건의 차이</strong><p>필수 참석자와 조정 가능한 사람을 똑같이 고려하기 어렵습니다.</p></article>
+              <article><span>04</span><strong>재조율 반복</strong><p>충돌이나 변경이 생기면 같은 확인 과정을 반복합니다.</p></article>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="solutionSection sectionPad" id="solutionSection" aria-labelledby="solutionTitle">
+        <div class="pageGrid">
+          <div class="sectionIntro wideIntro revealItem">
+            <p class="eyebrowText">Solution</p>
+            <h2 class="sectionTitle" id="solutionTitle">입력은 가볍게, 판단은 분명하게.</h2>
+          </div>
+          <div class="solutionGrid">
+            <article class="solutionCard revealItem">
+              <img src="./assets/service-condition.png" alt="" />
+              <span>Simple Input</span>
+              <h3>필수 정보 중심으로 시작 부담 줄이기</h3>
+              <p>기간과 소요 시간 등 추천에 필요한 조건부터 묻고, 이후 단계에서 참석 조건을 구체화합니다.</p>
+            </article>
+            <article class="solutionCard revealItem">
+              <img src="./assets/service-filter.png" alt="" />
+              <span>Smart Priority</span>
+              <h3>필수/선택 참석 조건 구분하기</h3>
+              <p>많은 사람이 가능한 시간보다 꼭 필요한 사람이 함께할 수 있는 시간을 우선 고려합니다.</p>
+            </article>
+            <article class="solutionCard revealItem">
+              <img src="./assets/service-reason.png" alt="" />
+              <span>Clear Recommendation</span>
+              <h3>추천 시간과 이유를 함께 보여주기</h3>
+              <p>단순 시간표가 아니라 참석 가능 인원, 충돌 여부, 추천 이유를 한눈에 비교하게 합니다.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="flowSection sectionPad" id="flowSection" aria-labelledby="flowTitle">
+        <div class="pageGrid flowStage">
+          <div class="flowCopyStack">
+            <div class="flowHeader revealItem">
+              <p class="eyebrowText">Main User Flow</p>
+              <h2 class="sectionTitle" id="flowTitle">Create에서 Confirm까지, 실제 화면에서 드러나는 설계 흐름</h2>
+              <p class="sectionLead">
+                각 단계의 사용자 행동, UX 포인트, 실제 Mingle 화면 목업을 한 흐름으로 연결했습니다.
+              </p>
+            </div>
+            <div class="flowSteps" data-flow-steps>
+              <div class="flowStepsTrack" data-flow-steps-track>
+              <article class="flowStep isActive revealItem" data-flow-index="0">
+                <span class="stepKicker">STEP 01 / CREATE</span>
+                <h3>간단하게 회의를 시작해요</h3>
+                <p>회의 이름과 날짜 범위, 필요한 시간을 설정하고 복잡한 준비 없이 조율을 시작해요.</p>
+                <dl>
+                  <div><dt>사용자 행동</dt><dd>회의 정보를 입력하고 생성을 진행한다.</dd></div>
+                  <div><dt>UX 포인트</dt><dd>필요 조건만 먼저 보여주어 시작 부담을 줄인다.</dd></div>
+                  <div><dt>해결 문제</dt><dd>시작 전부터 많은 정보를 요구하는 부담을 낮춘다.</dd></div>
+                </dl>
+              </article>
+              <article class="flowStep revealItem" data-flow-index="1">
+                <span class="stepKicker">STEP 02 / COLLECT</span>
+                <h3>필요한 사람들의 시간을 모아요</h3>
+                <p>함께할 사람을 추가하고 참석 조건을 정한 뒤, 각자의 가능한 시간을 요청해요.</p>
+                <dl>
+                  <div><dt>사용자 행동</dt><dd>참석자 조건 및 응답 요청을 설정한다.</dd></div>
+                  <div><dt>UX 포인트</dt><dd>회의의 실제 조건을 추천 기준에 반영한다.</dd></div>
+                  <div><dt>해결 문제</dt><dd>조건의 차이를 판단에 반영할 수 있게 만든다.</dd></div>
+                </dl>
+              </article>
+              <article class="flowStep revealItem" data-flow-index="2">
+                <span class="stepKicker">STEP 03 / TRACK</span>
+                <h3>응답 현황을 한눈에 확인해요</h3>
+                <p>누가 답했는지, 누구의 응답이 남았는지 한곳에서 확인할 수 있어요.</p>
+                <dl>
+                  <div><dt>사용자 행동</dt><dd>응답과 미응답 상태를 확인한다.</dd></div>
+                  <div><dt>UX 포인트</dt><dd>진행 상황을 명확히 보여준다.</dd></div>
+                  <div><dt>해결 문제</dt><dd>반복 확인과 관리 부담을 줄인다.</dd></div>
+                </dl>
+              </article>
+              <article class="flowStep revealItem" data-flow-index="3">
+                <span class="stepKicker">STEP 04 / RECOMMEND</span>
+                <h3>결정하기 좋은 시간을 먼저 보여줘요</h3>
+                <p>가능 시간과 필수 참석 조건을 고려해, 회의하기 좋은 시간 후보를 확인해요.</p>
+                <dl>
+                  <div><dt>사용자 행동</dt><dd>추천 시간별 조건과 이유를 비교한다.</dd></div>
+                  <div><dt>UX 포인트</dt><dd>결정에 필요한 정보를 우선 제공한다.</dd></div>
+                  <div><dt>해결 문제</dt><dd>후보를 직접 대조하는 부담을 줄인다.</dd></div>
+                </dl>
+              </article>
+              <article class="flowStep revealItem" data-flow-index="4">
+                <span class="stepKicker">STEP 05 / CONFIRM</span>
+                <h3>선택한 시간으로 일정을 확정해요</h3>
+                <p>추천된 시간 중 하나를 선택하면 회의 일정이 명확하게 정리돼요.</p>
+                <dl>
+                  <div><dt>사용자 행동</dt><dd>시간을 선택하고 확정 결과를 확인한다.</dd></div>
+                  <div><dt>UX 포인트</dt><dd>완료 상태를 분명히 전달한다.</dd></div>
+                  <div><dt>해결 문제</dt><dd>조율 이후 행동이 모호한 상태를 줄인다.</dd></div>
+                </dl>
+              </article>
+              </div>
+            </div>
+          </div>
+
+          <aside class="flowPhoneWrap" aria-label="단계별 모바일 화면 목업">
+            <div class="flowPhoneChrome">
+              <span class="deviceButton deviceButtonLeft"></span>
+              <span class="deviceButton deviceButtonRight"></span>
+              <span class="deviceIsland"></span>
+              <div class="flowScreenViewport">
+                <img data-flow-image src="./assets/flow-create.png" alt="회의 생성 화면" />
+              </div>
+            </div>
+            <div class="flowThumbs" data-flow-thumbs aria-label="플로우 화면 선택">
+              <button class="active" type="button" data-thumb-index="0">Create</button>
+              <button type="button" data-thumb-index="1">Collect</button>
+              <button type="button" data-thumb-index="2">Track</button>
+              <button type="button" data-thumb-index="3">Recommend</button>
+              <button type="button" data-thumb-index="4">Confirm</button>
+            </div>
+            <img class="sectionMascot flowMascot revealItem" src="./assets/mascot-peek.png" alt="" />
+          </aside>
+        </div>
+      </section>
+
+      <section class="decisionSection sectionPad" id="decisionSection" aria-labelledby="decisionTitle">
+        <div class="pageGrid decisionGrid">
+          <div class="sectionIntro revealItem">
+            <p class="eyebrowText">Design Decisions</p>
+            <h2 class="sectionTitle" id="decisionTitle">서비스 흐름을 화면 경험으로 바꾸기 위해 남긴 판단</h2>
+            <p class="sectionLead">검증되지 않은 수치 대신, 포트폴리오에서 설명 가능한 설계 의도와 화면 적용 방식을 중심으로 정리했습니다.</p>
+            <img class="sectionMascot decisionMascot revealItem" src="./assets/mascot-sit.png" alt="" />
+          </div>
+          <div class="decisionList">
+            <article class="revealItem"><span>01</span><strong>입력은 가볍게</strong><p>일정을 정하는 데 꼭 필요한 정보부터 묻도록 했어요.</p></article>
+            <article class="revealItem"><span>02</span><strong>참석 조건은 분명하게</strong><p>많은 사람이 가능한 시간보다 꼭 필요한 사람이 함께할 수 있는 시간을 먼저 고려했어요.</p></article>
+            <article class="revealItem"><span>03</span><strong>진행 상황은 한눈에</strong><p>응답을 기다리는 동안 무엇이 남았는지 명확하게 보여주도록 했어요.</p></article>
+            <article class="revealItem"><span>04</span><strong>추천 결과는 이해하기 쉽게</strong><p>시간만 제안하지 않고 선택에 필요한 이유와 참석 조건을 함께 보여주도록 했어요.</p></article>
+            <article class="revealItem"><span>05</span><strong>변경 가능성도 고려</strong><p>확정 이후 변수가 생길 때 다시 조율할 수 있는 흐름도 설계했어요.</p></article>
+          </div>
+        </div>
+      </section>
+
+      <section class="prototypeSection sectionPad" aria-labelledby="prototypeTitle">
+        <div class="pageGrid prototypeBand revealItem">
+          <div class="prototypeCopy">
+            <p class="eyebrowText">Prototype</p>
+            <h2 class="sectionTitle" id="prototypeTitle">더 많은 화면은 프로토타입에서</h2>
+            <p class="sectionLead">홈, 추천 예시, 재조율 요청처럼 랜딩에 담지 않은 화면까지 이어서 확인할 수 있어요.</p>
+            <a class="primaryButton magnetic" href="https://www.figma.com/proto/UALyVcFwWbFz1uGaSeCbkH/mingle?node-id=178-1892&t=iyzUpHDaGbuT5naI-1" target="_blank" rel="noopener noreferrer">피그마 프로토타입</a>
+          </div>
+          <div class="prototypeScreens" aria-hidden="true">
+            <figure class="prototypeShot"><img src="./assets/screen-main.png" alt="" /></figure>
+            <figure class="prototypeShot"><img src="./assets/flow-collect.png" alt="" /></figure>
+            <figure class="prototypeShot"><img src="./assets/prototype-recommend.png" alt="" /></figure>
+            <figure class="prototypeShot"><img src="./assets/prototype-detail.png" alt="" /></figure>
+            <figure class="prototypeShot"><img src="./assets/flow-confirm.png" alt="" /></figure>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="siteFooter">
+      <div class="pageGrid footerGrid">
+        <h2>조율은 가볍게,<br>결정은 빠르게</h2>
+      </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
+    <script src="./script.js"></script>
+  </body>
+</html>
