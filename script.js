@@ -94,18 +94,38 @@ function setActiveFlow(index) {
   }, prefersReducedMotion ? 0 : 160);
 }
 
-menuButton?.addEventListener("click", () => {
-  const isOpen = navLinks.classList.toggle("open");
+function setMenuOpen(isOpen) {
+  navLinks?.classList.toggle("open", isOpen);
   document.body.classList.toggle("menuOpen", isOpen);
-  menuButton.setAttribute("aria-expanded", String(isOpen));
+  menuButton?.setAttribute("aria-expanded", String(isOpen));
+  menuButton?.setAttribute("aria-label", isOpen ? "메뉴 닫기" : "메뉴 열기");
+  if (isOpen) lenis?.stop();
+  else lenis?.start();
+}
+
+menuButton?.addEventListener("click", () => {
+  setMenuOpen(!navLinks?.classList.contains("open"));
 });
 
 navLinks?.querySelectorAll("a").forEach((link) => {
   link.addEventListener("click", () => {
-    navLinks.classList.remove("open");
-    document.body.classList.remove("menuOpen");
-    menuButton?.setAttribute("aria-expanded", "false");
+    setMenuOpen(false);
   });
+});
+
+document.addEventListener("keydown", (event) => {
+  if (event.key === "Escape" && navLinks?.classList.contains("open")) {
+    setMenuOpen(false);
+    menuButton?.focus();
+  }
+});
+document.addEventListener("click", (event) => {
+  if (navLinks?.classList.contains("open") && !event.target.closest(".navShell")) setMenuOpen(false);
+});
+window.addEventListener("resize", () => {
+  if (window.innerWidth > 760 && navLinks?.classList.contains("open")) setMenuOpen(false);
+  requestFlowUpdate();
+  requestHeroPhoneUpdate();
 });
 
 document.querySelectorAll('a[href^="#"]').forEach((link) => {
@@ -115,7 +135,7 @@ document.querySelectorAll('a[href^="#"]').forEach((link) => {
     const target = document.querySelector(id);
     if (!target) return;
     event.preventDefault();
-    const offset = id === "#flowSection" ? 0 : -94;
+    const offset = -94;
     if (lenis) {
       lenis.scrollTo(target, { offset, duration: 1.05 });
     } else {
@@ -349,7 +369,7 @@ document.querySelectorAll("[data-tilt]").forEach((card) => {
 
 document.querySelectorAll(".magnetic").forEach((button) => {
   button.addEventListener("pointermove", (event) => {
-    if (prefersReducedMotion) return;
+    if (prefersReducedMotion || event.pointerType !== "mouse") return;
     const rect = button.getBoundingClientRect();
     const x = event.clientX - rect.left - rect.width / 2;
     const y = event.clientY - rect.top - rect.height / 2;
@@ -360,6 +380,36 @@ document.querySelectorAll(".magnetic").forEach((button) => {
     button.style.transform = "";
   });
 });
+
+const mobileLayout = window.matchMedia("(max-width: 760px)");
+document.querySelectorAll(".primaryButton, .ghostButton, .topFab, .navLinks a").forEach((control) => {
+  control.addEventListener("pointerdown", (event) => {
+    if (!mobileLayout.matches || prefersReducedMotion || event.button !== 0) return;
+    const rect = control.getBoundingClientRect();
+    const size = Math.hypot(rect.width, rect.height) * 2;
+    const ripple = document.createElement("span");
+    ripple.className = "tapRipple";
+    ripple.setAttribute("aria-hidden", "true");
+    Object.assign(ripple.style, {
+      width: `${size}px`, height: `${size}px`,
+      left: `${event.clientX - rect.left - size / 2}px`,
+      top: `${event.clientY - rect.top - size / 2}px`,
+    });
+    control.appendChild(ripple);
+    ripple.addEventListener("animationend", () => ripple.remove(), { once: true });
+    window.setTimeout(() => ripple.remove(), 600);
+  });
+});
+
+const prototypeScreens = document.querySelector(".prototypeScreens");
+if (prototypeScreens) {
+  const prototypeObserver = new IntersectionObserver((entries) => {
+    entries.forEach(({ target, intersectionRatio }) => {
+      target.classList.toggle("isInView", mobileLayout.matches && intersectionRatio >= 0.85);
+    });
+  }, { root: prototypeScreens, threshold: [0, 0.85, 1] });
+  prototypeScreens.querySelectorAll(".prototypeShot").forEach(shot => prototypeObserver.observe(shot));
+}
 
 window.addEventListener(
   "scroll",
