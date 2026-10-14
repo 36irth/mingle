@@ -793,7 +793,8 @@ button { font: inherit; }
   top: auto;
   display: grid;
   justify-items: center;
-  gap: 18px;
+  align-content: start;
+  gap: 8px;
 }
 .flowMascot {
   left: auto;
@@ -1017,13 +1018,16 @@ button { font: inherit; }
 }
 .prototypeShot img {
   display: block;
-  width: 106%;
-  height: 106%;
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
   border-radius: 25px;
   object-fit: cover;
   object-position: top center;
   background: #fbfafb;
-  transform: translate(-3%, -1%);
+  transform: none;
 }
 .prototypeShot:nth-child(1) {
   transform: none;
