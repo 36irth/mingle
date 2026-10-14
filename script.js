@@ -135,7 +135,8 @@ document.querySelectorAll('a[href^="#"]').forEach((link) => {
     const target = document.querySelector(id);
     if (!target) return;
     event.preventDefault();
-    const offset = -94;
+    const isMobileFlowNav = mobileLayout.matches && id === "#flowSection" && link.closest(".navLinks");
+    const offset = isMobileFlowNav ? 0 : -94;
     if (lenis) {
       lenis.scrollTo(target, { offset, duration: 1.05 });
     } else {
@@ -278,7 +279,15 @@ function updateFlowByScroll() {
   const scrollableDistance = Math.max(1, flowStage.offsetHeight - window.innerHeight);
   flowStageProgress = Math.min(1, Math.max(0, (window.innerHeight * 0.18 - rect.top) / scrollableDistance));
 
-  const rawStep = flowStageProgress * flowScreens.length;
+  let rawStep = flowStageProgress * flowScreens.length;
+  if (mobileLayout.matches) {
+    // Keep the first four steps gradual; shorten only the final hold.
+    const lastStepStart = 0.9;
+    const lastIndex = flowScreens.length - 1;
+    rawStep = flowStageProgress < lastStepStart
+      ? (flowStageProgress / lastStepStart) * lastIndex
+      : lastIndex + (flowStageProgress - lastStepStart) / (1 - lastStepStart);
+  }
   const nextIndex = Math.min(flowScreens.length - 1, Math.max(0, Math.floor(rawStep)));
   flowScreenProgress = Math.min(1, Math.max(0, rawStep - nextIndex));
 
@@ -318,10 +327,16 @@ lenis?.on("scroll", requestHeroPhoneUpdate);
 
 function syncFlowScreenScroll() {
   if (!flowViewport) return;
+  if (mobileLayout.matches && activeFlowIndex === flowScreens.length - 1) {
+    flowViewport.scrollTop = 0;
+    return;
+  }
   const maxScroll = flowViewport.scrollHeight - flowViewport.clientHeight;
   if (maxScroll <= 0) return;
 
-  const delayedProgress = (flowScreenProgress - 0.42) / 0.34;
+  const scrollStart = mobileLayout.matches ? 0.22 : 0.42;
+  const scrollDuration = mobileLayout.matches ? 0.66 : 0.34;
+  const delayedProgress = (flowScreenProgress - scrollStart) / scrollDuration;
   const clamped = Math.min(1, Math.max(0, delayedProgress));
   const eased = clamped * clamped * (3 - 2 * clamped);
 

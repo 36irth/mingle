@@ -1296,7 +1296,7 @@ body.revealReady .messageRow:nth-child(3) p { animation-delay: 0.2s; }
   .solutionCard span { font-size: 11px; letter-spacing: 0.02em; }
   .solutionCard h3 { margin-top: 10px; font-size: clamp(20px, 4.8vw, 25px); }
   .solutionCard p { margin-top: 12px; font-size: 14px; line-height: 1.65; }
-  .flowStage { min-height: 340svh; }
+  .flowStage { min-height: 740svh; }
   .flowCopyStack {
     position: sticky; top: 92px;
     grid-template-columns: minmax(0, 0.85fr) minmax(0, 1fr);
@@ -1318,7 +1318,7 @@ body.revealReady .messageRow:nth-child(3) p { animation-delay: 0.2s; }
     margin-inline: 0;
     padding: 0 0 36px;
   }
-  .flowStepsTrack { gap: 14px; }
+  .flowStepsTrack { gap: 14px; transition-duration: 1.05s; }
   .flowStep { padding: 14px; box-shadow: none; }
   .stepKicker { font-size: 11px; }
   .flowStep h3 { font-size: 20px; }
@@ -1326,12 +1326,13 @@ body.revealReady .messageRow:nth-child(3) p { animation-delay: 0.2s; }
   .flowStep dl { display: none; }
   .splitText .splitWord { white-space: normal; }
   .decisionList article { padding: 20px; }
+  .prototypeSection { padding-bottom: 0; }
   .prototypeBand { width: 100%; grid-template-columns: minmax(0, 1fr); min-height: auto; gap: 24px; }
   .prototypeCopy { padding-inline: 16px; }
   .prototypeScreens {
     --prototypeWidth: clamp(128px, 36vw, 180px);
     min-height: auto; max-width: 100%; justify-content: flex-start;
-    gap: 12px; overflow-x: auto; padding: 14px calc((100% - var(--prototypeWidth)) / 2) 26px 16px;
+    gap: 12px; overflow-x: auto; padding: 14px calc((100% - var(--prototypeWidth)) / 2) 64px 16px;
     scroll-snap-type: x mandatory;
     scroll-padding-inline: 16px;
     overscroll-behavior-x: contain;
