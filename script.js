@@ -115,10 +115,11 @@ document.querySelectorAll('a[href^="#"]').forEach((link) => {
     const target = document.querySelector(id);
     if (!target) return;
     event.preventDefault();
+    const offset = id === "#flowSection" ? 0 : -94;
     if (lenis) {
-      lenis.scrollTo(target, { offset: -94, duration: 1.05 });
+      lenis.scrollTo(target, { offset, duration: 1.05 });
     } else {
-      const top = target.getBoundingClientRect().top + window.scrollY - 94;
+      const top = target.getBoundingClientRect().top + window.scrollY + offset;
       window.scrollTo({ top, behavior: prefersReducedMotion ? "auto" : "smooth" });
     }
   });
@@ -300,7 +301,7 @@ function syncFlowScreenScroll() {
   const maxScroll = flowViewport.scrollHeight - flowViewport.clientHeight;
   if (maxScroll <= 0) return;
 
-  const delayedProgress = (flowScreenProgress - 0.38) / 0.28;
+  const delayedProgress = (flowScreenProgress - 0.42) / 0.34;
   const clamped = Math.min(1, Math.max(0, delayedProgress));
   const eased = clamped * clamped * (3 - 2 * clamped);
 
